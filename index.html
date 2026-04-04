@@ -9,85 +9,83 @@
 </head>
 <body>
   <div class="page-shell">
-    <div class="board-fit">
-      <main class="calendar-board" aria-label="攻坚倒计时">
-        <section class="calendar-header">
-          <div class="header-copy">
-            <p class="calendar-kicker">E-PAPER CALENDAR</p>
-            <h1>攻坚倒计时</h1>
-          </div>
-          <div class="header-meta" aria-label="站点信息">
-            <span class="meta-chip">UTC+8</span>
-            <span class="meta-chip">WUHAN</span>
-            <span class="meta-chip">B/W MODE</span>
-          </div>
-        </section>
+    <main class="calendar-board" aria-label="攻坚倒计时">
+      <section class="calendar-header">
+        <div class="header-copy">
+          <p class="calendar-kicker">E-PAPER CALENDAR</p>
+          <h1>攻坚倒计时</h1>
+        </div>
+        <div class="header-meta" aria-label="站点信息">
+          <span class="meta-chip">UTC+8</span>
+          <span class="meta-chip">WUHAN</span>
+          <span class="meta-chip">B/W MODE</span>
+        </div>
+      </section>
 
-        <section class="calendar-body">
-          <aside class="sidebar">
-            <section class="calendar-card">
-              <p class="card-label">TODAY</p>
-              <p id="todayLunar" class="lunar-text">农历加载中...</p>
-              <p id="todayDate" class="date-text">加载中...</p>
-              <p id="todayMeta" class="subtle-text">北京时间</p>
-            </section>
-
-            <section class="calendar-card art-card">
-              <div class="art-head">
-                <p class="card-label">PIGFISH-01</p>
-              </div>
-              <figure class="hero-art">
-                <img id="petImage" src="./assets/pigfish.svg" alt="简洁小猪鱼插图">
-              </figure>
-            </section>
-          </aside>
-
-          <section class="main-grid">
-            <section class="calendar-card countdown-card">
-              <div class="countdown-head">
-                <div>
-                  <p class="card-label">TARGET DATE</p>
-                  <p class="target-date">2026 / 04 / 16</p>
-                </div>
-                <p class="countdown-tag">THESIS MODE</p>
-              </div>
-              <div class="countdown-frame" aria-live="polite">
-                <span id="countdownNumber" class="countdown-number">--</span>
-                <span class="countdown-unit">DAYS</span>
-              </div>
-              <p id="countdownLabel" class="countdown-label">正在计算倒计时...</p>
-            </section>
-
-            <div class="info-grid">
-              <section class="calendar-card weather-panel">
-                <div class="panel-head">
-                  <p class="card-label">WEATHER / WUHAN</p>
-                  <button id="refreshWeatherButton" class="ghost-button" type="button">刷新</button>
-                </div>
-                <div id="weatherStatus" class="weather-status" role="status" aria-live="polite">正在获取天气...</div>
-                <div id="weatherData" class="weather-data" hidden>
-                  <div class="weather-headline">
-                    <span id="weatherIcon" class="weather-icon" aria-hidden="true"></span>
-                    <p id="weatherSummary" class="weather-summary"></p>
-                  </div>
-                  <p id="weatherRange" class="weather-range"></p>
-                  <p id="weatherUpdatedAt" class="subtle-text"></p>
-                </div>
-              </section>
-
-              <section class="calendar-card quote-panel">
-                <div class="panel-head">
-                  <p class="card-label">HOURLY NOTE</p>
-                  <button id="refreshQuoteButton" class="ghost-button" type="button">刷新</button>
-                </div>
-                <blockquote id="quoteText" class="quote-text">加载中...</blockquote>
-                <p id="quoteMeta" class="subtle-text">每小时自动更新一句</p>
-              </section>
-            </div>
+      <section class="calendar-body">
+        <aside class="sidebar">
+          <section class="calendar-card">
+            <p class="card-label">TODAY</p>
+            <p id="todayLunar" class="lunar-text">农历加载中...</p>
+            <p id="todayDate" class="date-text">加载中...</p>
+            <p id="todayMeta" class="subtle-text">北京时间</p>
           </section>
+
+          <section class="calendar-card art-card">
+            <div class="art-head">
+              <p class="card-label">PIGFISH-01</p>
+            </div>
+            <figure class="hero-art">
+              <img id="petImage" src="./assets/pigfish.svg" alt="简洁小猪鱼插图">
+            </figure>
+          </section>
+        </aside>
+
+        <section class="main-grid">
+          <section class="calendar-card countdown-card">
+            <div class="countdown-head">
+              <div>
+                <p class="card-label">TARGET DATE</p>
+                <p class="target-date">2026 / 04 / 16</p>
+              </div>
+              <p class="countdown-tag">THESIS MODE</p>
+            </div>
+            <div class="countdown-frame" aria-live="polite">
+              <span id="countdownNumber" class="countdown-number">--</span>
+              <span class="countdown-unit">DAYS</span>
+            </div>
+            <p id="countdownLabel" class="countdown-label">正在计算倒计时...</p>
+          </section>
+
+          <div class="info-grid">
+            <section class="calendar-card weather-panel">
+              <div class="panel-head">
+                <p class="card-label">WEATHER / WUHAN</p>
+                <button id="refreshWeatherButton" class="ghost-button" type="button">刷新</button>
+              </div>
+              <div id="weatherStatus" class="weather-status" role="status" aria-live="polite">正在获取天气...</div>
+              <div id="weatherData" class="weather-data" hidden>
+                <div class="weather-headline">
+                  <span id="weatherIcon" class="weather-icon" aria-hidden="true"></span>
+                  <p id="weatherSummary" class="weather-summary"></p>
+                </div>
+                <p id="weatherRange" class="weather-range"></p>
+                <p id="weatherUpdatedAt" class="subtle-text"></p>
+              </div>
+            </section>
+
+            <section class="calendar-card quote-panel">
+              <div class="panel-head">
+                <p class="card-label">HOURLY NOTE</p>
+                <button id="refreshQuoteButton" class="ghost-button" type="button">刷新</button>
+              </div>
+              <blockquote id="quoteText" class="quote-text">加载中...</blockquote>
+              <p id="quoteMeta" class="subtle-text">每小时自动更新一句</p>
+            </section>
+          </div>
         </section>
-      </main>
-    </div>
+      </section>
+    </main>
   </div>
 
   <script src="./script.js"></script>
