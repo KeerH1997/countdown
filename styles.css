@@ -31,6 +31,10 @@ body {
   padding: 20px 0 32px;
 }
 
+.board-fit {
+  width: 100%;
+}
+
 .calendar-board {
   position: relative;
   border: 4px solid var(--line);
@@ -168,7 +172,7 @@ body {
 .hero-art {
   display: flex;
   flex: 1 1 auto;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin: 18px 0 0;
   min-height: 320px;
@@ -181,9 +185,9 @@ body {
 
 .hero-art img {
   display: block;
-  width: min(100%, 210px);
+  width: 100%;
   max-width: 100%;
-  max-height: none;
+  max-height: 100%;
   height: auto;
   object-fit: contain;
 }
@@ -367,81 +371,236 @@ body {
   overflow-wrap: anywhere;
 }
 
+.leaf3-mode {
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.leaf3-mode .page-shell {
+  width: 100vw;
+  min-height: 100dvh;
+  padding: 8px;
+  display: grid;
+  place-items: center;
+}
+
+.leaf3-mode .board-fit {
+  display: grid;
+  place-items: center;
+  width: var(--fit-width, auto);
+  height: var(--fit-height, auto);
+}
+
+.leaf3-mode .calendar-board {
+  width: 1100px;
+  max-width: none;
+  transform-origin: top left;
+}
+
+.leaf3-mode .calendar-body {
+  grid-template-columns: minmax(260px, 310px) minmax(0, 1fr);
+}
+
+.leaf3-mode .calendar-header {
+  gap: 16px;
+  padding: 22px 22px 18px;
+}
+
+.leaf3-mode .calendar-kicker {
+  margin-bottom: 8px;
+  font-size: 0.86rem;
+}
+
+.leaf3-mode .calendar-header h1 {
+  font-size: 3.35rem;
+}
+
+.leaf3-mode .meta-chip {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+}
+
+.leaf3-mode .calendar-card {
+  padding: 18px;
+}
+
+.leaf3-mode .card-label {
+  font-size: 0.86rem;
+}
+
+.leaf3-mode .date-text {
+  margin-top: 16px;
+  font-size: 1.85rem;
+  line-height: 1.35;
+}
+
+.leaf3-mode .subtle-text {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.leaf3-mode .sidebar {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-right: 4px solid var(--line);
+  border-bottom: 0;
+}
+
+.leaf3-mode .hero-art {
+  min-height: 264px;
+  margin-top: 14px;
+  padding: 16px;
+}
+
+.leaf3-mode .countdown-card {
+  padding: 22px 22px 20px;
+}
+
+.leaf3-mode .target-date {
+  margin-top: 10px;
+  font-size: 2.05rem;
+}
+
+.leaf3-mode .countdown-frame {
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px 18px;
+}
+
+.leaf3-mode .countdown-number {
+  font-size: 7.4rem;
+}
+
+.leaf3-mode .countdown-unit {
+  padding-bottom: 8px;
+  font-size: 1.55rem;
+}
+
+.leaf3-mode .countdown-label {
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.leaf3-mode .info-grid {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+}
+
+.leaf3-mode .panel-head {
+  gap: 10px;
+}
+
+.leaf3-mode .ghost-button {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 0.88rem;
+}
+
+.leaf3-mode .weather-headline {
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.leaf3-mode .weather-icon {
+  width: 62px;
+  height: 62px;
+}
+
+.leaf3-mode .weather-icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.leaf3-mode .weather-summary {
+  font-size: 1.28rem;
+  line-height: 1.45;
+}
+
+.leaf3-mode .quote-text {
+  margin-top: 16px;
+  font-size: 1.16rem;
+  line-height: 1.65;
+}
+
+.leaf3-mode .quote-panel {
+  border-left: 3px solid var(--line);
+}
+
 @media (max-width: 980px) {
-  .calendar-header,
-  .countdown-head,
-  .art-head,
-  .panel-head {
+  body:not(.leaf3-mode) .calendar-header,
+  body:not(.leaf3-mode) .countdown-head,
+  body:not(.leaf3-mode) .art-head,
+  body:not(.leaf3-mode) .panel-head {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .calendar-body,
-  .info-grid {
+  body:not(.leaf3-mode) .calendar-body,
+  body:not(.leaf3-mode) .info-grid {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
+  body:not(.leaf3-mode) .sidebar {
     display: block;
     border-right: 0;
     border-bottom: 4px solid var(--line);
   }
 
-  .quote-panel {
+  body:not(.leaf3-mode) .quote-panel {
     border-left: 0;
   }
 
-  .weather-headline {
+  body:not(.leaf3-mode) .weather-headline {
     align-items: flex-start;
   }
 }
 
 @media (max-width: 560px) {
-  .page-shell {
+  body:not(.leaf3-mode) .page-shell {
     width: min(100% - 14px, 1180px);
     padding-top: 14px;
   }
 
-  .calendar-board {
+  body:not(.leaf3-mode) .calendar-board {
     border-width: 3px;
   }
 
-  .calendar-board::before {
+  body:not(.leaf3-mode) .calendar-board::before {
     left: 18px;
     right: 18px;
     background-size: 58px 32px;
   }
 
-  .calendar-header,
-  .calendar-card,
-  .countdown-card {
+  body:not(.leaf3-mode) .calendar-header,
+  body:not(.leaf3-mode) .calendar-card,
+  body:not(.leaf3-mode) .countdown-card {
     padding: 18px;
   }
 
-  .hero-art {
+  body:not(.leaf3-mode) .hero-art {
     min-height: 220px;
     padding: 14px;
   }
 
-  .countdown-frame {
+  body:not(.leaf3-mode) .countdown-frame {
     padding: 16px;
   }
 
-  .quote-text,
-  .weather-summary {
+  body:not(.leaf3-mode) .quote-text,
+  body:not(.leaf3-mode) .weather-summary {
     font-size: 1.18rem;
   }
 
-  .weather-headline {
+  body:not(.leaf3-mode) .weather-headline {
     gap: 12px;
   }
 
-  .weather-icon {
+  body:not(.leaf3-mode) .weather-icon {
     width: 58px;
     height: 58px;
   }
 
-  .weather-icon svg {
+  body:not(.leaf3-mode) .weather-icon svg {
     width: 34px;
     height: 34px;
   }

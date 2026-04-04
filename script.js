@@ -7,18 +7,18 @@ const TARGET_DATE = { year: 2026, month: 4, day: 16 };
 const TARGET_DAY_INDEX = toDayIndex(TARGET_DATE.year, TARGET_DATE.month, TARGET_DATE.day);
 
 const QUOTES = [
-  "先把标题写出来，论文就不再是一团迷雾。",
+  "先把标题写出来，讹文就不再是一团迷雾。",
   "不要等状态完美，先让光标开始跳动。",
   "先写粗糙版，修改永远比面对空白容易。",
   "不用一次写对，先把思路留在页面上。",
   "哪怕句子写得“笨”，也比一直不写强。",
-  "论文的阻力往往在开头，写下去，阻力就会变成惯性。",
+  "讹文的阻力往往在开头，写下去，阻力就会变成惯性。",
   "不要和理想版本比，先和昨天的空白页拉开差距。",
   "删掉“必须写好”的包袱，换成“必须写完”的决心。",
   "第一稿的任务不是完美，而是存在。",
   "如果你觉得卡住了，就先写最垃圾的那一版。",
-  "论文不是一口气憋出来的，而是一段一段堆出来的。",
-  "哪怕只改一个段落，论文也在向前。",
+  "讹文不是一口气憋出来的，而是一段一段堆出来的。",
+  "哪怕只改一个段落，讹文也在向前。",
   "今天推进半页，也比明天面对整页焦虑更有底气。",
   "稳住每日的匀速节奏，比偶尔的通宵爆发更有力量。",
   "把这一小节写完，再看下一节，别让全局吓住你。",
@@ -39,7 +39,7 @@ const QUOTES = [
   "你的文字正在构建一个领域，而你就是那个规则的守护者。",
   "卡住时别评判自己，先把下一句写完。",
   "你不是在拖延，你是在等待一个更小的切入点。",
-  "论文的完成靠的是物理时间的累积，而不是灵光一现的奇迹。",
+  "讹文的完成靠的是物理时间的累积，而不是灵光一现的奇迹。",
   "每一小时的绝对专注，都会换来最后交稿时的从容。",
   "感觉累是正常的，那是你正在突破学术极限的信号。",
   "暂时写不出来也没关系，站起来拉伸一下，光标还在等你。",
@@ -50,12 +50,12 @@ const QUOTES = [
   "先完成，再精修，这是通往终点的唯一正路。",
   "今天的草稿，就是明天最重要的一章。",
   "想象一下十天后按下“发送”键那一刻的寂静与自由。",
-  "这篇论文不会伴随你一生，但写完它的韧性会。",
+  "这篇讹文不会伶随你一生，但写完它的韧性会。",
   "每一个字都在缩短你与“Doctor”这个称谓的物理距离。",
   "现在的每一行修改，都在为你未来的学术生涯筑基。",
   "你已经走过了几万字的长途，最后几千字只是惯性使然。",
   "最后十天，不是为了创造完美，而是为了完成使命。",
-  "关掉社交软件，世界会等你，但论文的截稿期不会。",
+  "关掉社交软件，世界会等你，但讹文的截稿期不会。",
   "去写吧，为了那个在终点等待你的、更自由的自己。"
 ];
 
@@ -142,9 +142,13 @@ const weatherSummary = document.getElementById("weatherSummary");
 const weatherRange = document.getElementById("weatherRange");
 const weatherUpdatedAt = document.getElementById("weatherUpdatedAt");
 const refreshWeatherButton = document.getElementById("refreshWeatherButton");
+const pageShell = document.querySelector(".page-shell");
+const boardFit = document.querySelector(".board-fit");
+const calendarBoard = document.querySelector(".calendar-board");
 
 let hasWeatherData = false;
 let currentQuoteIndex = -1;
+let fitFrame = 0;
 
 function toDayIndex(year, month, day) {
   return Math.floor(Date.UTC(year, month - 1, day) / DAY_MS);
@@ -168,23 +172,9 @@ function getWeatherDescription(code) {
   return WEATHER_CODE_MAP[code] ?? "天气平稳";
 }
 
-function getLunarText(date) {
-  if (!lunarFormatter) {
-    return "农历信息暂不可用";
-  }
-
-  try {
-    const formatted = lunarFormatter.format(date);
-    const normalized = formatted.replace(/\d+/g, (digits) => toChineseNumber(Number(digits)));
-    const withDaySuffix = normalized.endsWith("日") ? normalized : `${normalized}日`;
-    return `农历 ${withDaySuffix}`;
-  } catch (error) {
-    return "农历信息暂不可用";
-  }
-}
-
 function toChineseNumber(value) {
   const numerals = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+
   if (!Number.isFinite(value) || value < 0) {
     return String(value);
   }
@@ -206,10 +196,23 @@ function toChineseNumber(value) {
   return String(value);
 }
 
+function getLunarText(date) {
+  if (!lunarFormatter) {
+    return "农历信息暂不可用";
+  }
+
+  try {
+    const formatted = lunarFormatter.format(date);
+    const normalized = formatted.replace(/\d+/g, (digits) => toChineseNumber(Number(digits)));
+    const withDaySuffix = normalized.endsWith("日") ? normalized : `${normalized}日`;
+    return `农历 ${withDaySuffix}`;
+  } catch (error) {
+    return "农历信息暂不可用";
+  }
+}
+
 function getHourlyQuoteIndex(parts) {
-  const hourlySeed = Number(
-    `${parts.year}${pad(parts.month)}${pad(parts.day)}${pad(parts.hour)}`
-  );
+  const hourlySeed = Number(`${parts.year}${pad(parts.month)}${pad(parts.day)}${pad(parts.hour)}`);
   const raw = Math.sin(hourlySeed) * 10000;
   const normalized = raw - Math.floor(raw);
   return Math.floor(normalized * QUOTES.length);
@@ -232,6 +235,7 @@ function renderQuote(index, metaText) {
   currentQuoteIndex = index;
   quoteText.textContent = QUOTES[index];
   quoteMeta.textContent = metaText;
+  queueFitCalendar();
 }
 
 function getWeatherIconCategory(code) {
@@ -327,6 +331,62 @@ function setWeatherStatus(message, isError = false) {
   weatherStatus.hidden = false;
   weatherStatus.textContent = message;
   weatherStatus.classList.toggle("is-error", isError);
+  queueFitCalendar();
+}
+
+function shouldUseLeaf3Mode() {
+  const dpr = window.devicePixelRatio || 1;
+  const shortEdge = Math.round(Math.min(window.screen.width, window.screen.height) * dpr);
+  const longEdge = Math.round(Math.max(window.screen.width, window.screen.height) * dpr);
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+  const booxHint = /leaf|boox|onyx/i.test(navigator.userAgent);
+  const cssShortEdge = Math.min(window.innerWidth, window.innerHeight);
+  const cssLongEdge = Math.max(window.innerWidth, window.innerHeight);
+  const cssRatio = cssLongEdge / Math.max(cssShortEdge, 1);
+  const matchesLeaf3Resolution =
+    Math.abs(shortEdge - 1264) <= 180 && Math.abs(longEdge - 1680) <= 180;
+  const looksLikeLeafViewport =
+    isPortrait && cssShortEdge <= 900 && cssRatio >= 1.25 && cssRatio <= 1.45;
+
+  return matchesLeaf3Resolution || (booxHint && isPortrait) || looksLikeLeafViewport;
+}
+
+function fitCalendarToViewport() {
+  if (!pageShell || !boardFit || !calendarBoard) {
+    return;
+  }
+
+  const leaf3Mode = shouldUseLeaf3Mode();
+  document.body.classList.toggle("leaf3-mode", leaf3Mode);
+
+  if (!leaf3Mode) {
+    boardFit.style.width = "";
+    boardFit.style.height = "";
+    calendarBoard.style.transform = "";
+    return;
+  }
+
+  const visualViewportWidth = window.visualViewport?.width ?? window.innerWidth;
+  const visualViewportHeight = window.visualViewport?.height ?? window.innerHeight;
+  const safeInset = 16;
+  calendarBoard.style.transform = "scale(1)";
+  boardFit.style.width = "";
+  boardFit.style.height = "";
+
+  const naturalWidth = calendarBoard.offsetWidth;
+  const naturalHeight = calendarBoard.offsetHeight;
+  const availableWidth = Math.max(visualViewportWidth - safeInset, 0);
+  const availableHeight = Math.max(visualViewportHeight - safeInset, 0);
+  const scale = Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight, 1);
+
+  boardFit.style.width = `${Math.round(naturalWidth * scale)}px`;
+  boardFit.style.height = `${Math.round(naturalHeight * scale)}px`;
+  calendarBoard.style.transform = `scale(${scale})`;
+}
+
+function queueFitCalendar() {
+  window.cancelAnimationFrame(fitFrame);
+  fitFrame = window.requestAnimationFrame(fitCalendarToViewport);
 }
 
 function updateDateAndCountdown() {
@@ -342,27 +402,29 @@ function updateDateAndCountdown() {
   if (dayDelta > 0) {
     countdownNumber.textContent = String(dayDelta);
     countdownLabel.textContent = `距离目标日还有 ${dayDelta} 天。先推进一小段，今天这页就已经赢了。`;
+    queueFitCalendar();
     return;
   }
 
   if (dayDelta === 0) {
     countdownNumber.textContent = "0";
-    countdownLabel.textContent = "今天就是目标日。稳住，先把最关键的一页写出来。";
+    countdownLabel.textContent = "今天尕是目标日。稳住，先把最关键的一页写出来。";
+    queueFitCalendar();
     return;
   }
 
   countdownNumber.textContent = String(Math.abs(dayDelta));
   countdownLabel.textContent = `目标日已过去 ${Math.abs(dayDelta)} 天。继续保持写作惯性，把收尾做扎实。`;
+  queueFitCalendar();
 }
 
 function updateQuote() {
   const now = new Date();
   const shanghaiParts = getShanghaiParts(now);
-  const hour = shanghaiParts.hour;
   const quoteIndex = getHourlyQuoteIndex(shanghaiParts);
   renderQuote(
     quoteIndex,
-    `按北京时间整点随机切换，当前句子更新时间：${pad(hour)}:00`
+    `按北京时间整点随机切换，当前句子更新时间：${pad(shanghaiParts.hour)}:00`
   );
 }
 
@@ -446,6 +508,7 @@ async function fetchWeather() {
     }
   } finally {
     refreshWeatherButton.disabled = false;
+    queueFitCalendar();
   }
 }
 
@@ -457,9 +520,15 @@ refreshQuoteButton.addEventListener("click", () => {
   refreshQuoteManually();
 });
 
+window.addEventListener("resize", queueFitCalendar);
+window.addEventListener("orientationchange", queueFitCalendar);
+window.addEventListener("load", queueFitCalendar);
+window.visualViewport?.addEventListener("resize", queueFitCalendar);
+
 updateDateAndCountdown();
 updateQuote();
 fetchWeather();
+queueFitCalendar();
 
 scheduleAlignedTask(MINUTE_MS, updateDateAndCountdown);
 scheduleAlignedTask(HOUR_MS, updateQuote);
